@@ -59,15 +59,28 @@ angular.module('starter.controllers', [])
 
         $scope.banks = [];
 
-        $ionicLoading.show();
+        $scope.getBanks = function () {
+            banksService.getBanks()
+                .then(function (response) {
+                    $scope.banks = response.data;
 
-        banksService.getBanks()
-            .then(function (response) {
-                $scope.banks = response.data;
-                $ionicLoading.hide();
-            }, function (error) {
-                $ionicLoading.hide();
-            });
+                    $ionicLoading.hide();
+                    //Stop the ion-refresher from spinning.
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, function (error) {
+
+                    $ionicLoading.hide();
+                    //Stop the ion-refresher from spinning.
+                    $scope.$broadcast('scroll.refreshComplete');
+                });
+        };
+
+        $scope.doRefresh = function() {
+            $scope.getBanks();
+        };
+
+        $ionicLoading.show();
+        $scope.getBanks();
     })
 
     .service('banksService', ['$http', function ($http) {
