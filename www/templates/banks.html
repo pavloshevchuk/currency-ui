@@ -1,0 +1,9 @@
+<ion-view view-title="Banks">
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="bank in banks">
+                <img src="{{ bank.logo }}" style="max-width: 100px;"/> {{ bank.title }}
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
